@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>AES加解密软件</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>&emsp;&emsp;&emsp;AES加解密软件</h2>
+            <div class="col-md-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">AES数据加解密</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="strEncForm" class="form-horizontal" role="form" method="post" action="">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="col-sm-4">明/密文数据(16进制)</label>
+                                    <input class="col-sm-8" type="text" name="inStr">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4">密钥(16进制)</label>
+                                    <input class="col-sm-8" type="text" name="key">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4">密/明文数据(16进制)</label>
+                                    <input id="outStr" class="col-sm-8" type="text" name="outStr">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                &emsp;<input type="radio" name="en" value="enc" checked>&nbsp;加密<br><br>
+                                &emsp;<input type="radio" name="en" value="dec">&nbsp;解密&nbsp;
+                                &emsp;<button id="strEncBtn" class="btn btn-xs btn-default" type="button">AES加/解密</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div style="padding: 0;" class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">过程检测</h3>
+                        </div>
+                        <div id="procedure" class="panel-body">
+                                
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0;" class="col-md-3 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">KeyExpansion</h3>
+                        </div>
+                        <div id="keyEx" class="panel-body">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">AES中细节运算器</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form id="sboxForm" class="form-horizontal" role="form" method="post" action="">
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <div class="form-group">
+                                    <label class="col-sm-3">输入</label>
+                                    <input class="col-sm-9" type="text" name="inStr">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3">输出</label>
+                                    <input id="sboxOut" class="col-sm-9" type="text" name="outStr">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <button id="sboxBtn" class="btn btn-xs btn-default btn-block" type="button">S_Box<br>加密</button>
+                            </div>
+                        </form>
+                        <div class="col-md-12 col-sm-12">
+                        <hr align="center" width="100%" style="border-color: #ccc;">
+                        </div>
+                        <form id="shiftForm" class="form-horizontal" role="form" method="post" action="">
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <div class="form-group">
+                                    <label class="col-sm-3">输入</label>
+                                    <input class="col-sm-9" type="text" name="inStr">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3">输出</label>
+                                    <input id="shiftOut" class="col-sm-9" type="text" name="outStr">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <button id="shiftBtn" class="btn btn-xs btn-default btn-block" type="button">ShiftRows<br>加密</button>
+                            </div>
+                        </form>
+                        <div class="col-md-12 col-sm-12">
+                        <hr align="center" width="100%" style="border-color: #ccc;">
+                        </div>
+                        <form id="mixForm" class="form-horizontal" role="form" method="post" action="">
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <div class="form-group">
+                                    <label class="col-sm-3">输入</label>
+                                    <input class="col-sm-9" type="text" name="inStr">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3">输出</label>
+                                    <input id="mixOut" class="col-sm-9" type="text" name="outStr">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <button id="mixBtn" class="btn btn-xs btn-default btn-block" type="button">MixColumns<br>加密</button>
+                            </div>
+                        </form>
+                        <div class="col-md-12 col-sm-12">
+                        <hr align="center" width="100%" style="border-color: #ccc;">
+                        </div>
+                        <form id="addForm" class="form-horizontal" role="form" method="post" action="">
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <div class="form-group">
+                                    <label class="col-sm-3">输入</label>
+                                    <input class="col-sm-9" type="text" name="inStr">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3">密钥</label>
+                                    <input class="col-sm-9" type="text" name="key">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3">输出</label>
+                                    <input id="addOut" class="col-sm-9" type="text" name="outStr">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <button id="addBtn" class="btn btn-xs btn-default" type="button">AddRoundKey<br>加密</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">AES文件加密</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form id="fileEncForm" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label class="col-sm-5">输入文件</label>
+                                    <input class="col-sm-7" type="file" name="inFile">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-5">输出文件</label>
+                                    <a id="fileOut" href="#" class="col-sm-7"></a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-5">密钥</label>
+                                    <input class="col-sm-7" type="text" name="key">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                &emsp;<input type="radio" name="en" value="enc" checked>&nbsp;加密<br><br>
+                                &emsp;<input type="radio" name="en" value="dec">&nbsp;解密<br><br>
+                                <button id="fileBtn" type="button" class="btn btn-default btn-xs">加/解密文件</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/send.js"></script>
+</body>
+</html>
